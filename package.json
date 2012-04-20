@@ -1,0 +1,23 @@
+{
+  "author": "",
+  "name": "mocha-gherkin",
+  "version": "0.0.0",
+  "repository": {
+    "url": ""
+  },
+  "engines": {
+    "node": "~0.6.1"
+  },
+  "dependencies": {
+    "gherkin": "~2.9.3"
+  },
+  "devDependencies": {
+    "hogan": "~1.0.5-dev",
+    "mocha": "~1.0.1",
+    "request": "~2.9.202"
+  },
+  "scripts": {
+    "test": "make"
+  },
+  "main": "./parser"
+}
