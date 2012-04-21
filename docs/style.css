@@ -93,7 +93,7 @@ code {
 
 pre {
   margin: 30px;
-  padding: 30px;
+  padding: 30px 15px;
   border: 1px solid #eee;
   border-bottom-color: #ddd;
   -webkit-border-radius: 2px;

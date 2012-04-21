@@ -1,7 +1,7 @@
 
 URL = https://raw.github.com/mojombo/jekyll/master/features
 REPORTER = spec
-TESTS = test/api.js
+TESTS = test/api.js test/request.js
 
 all: template generate-features test docs readme
 
@@ -16,9 +16,9 @@ generate:
 	@echo "... Build the test files, requesting some of jekyll features ...\n"
 
 	node examples/stdout.js > test/stdout.js
-	node examples/request.js $(URL)/permalinks.feature > test/permalinks.js
-	node examples/request.js $(URL)/create_sites.feature > test/create_sites.js
-	node examples/request.js $(URL)/markdown.feature > test/markdown.js
+	node examples/request.js $(URL)/permalinks.feature > examples/permalinks.js
+	node examples/request.js $(URL)/create_sites.feature > examples/create_sites.js
+	node examples/request.js $(URL)/markdown.feature > examples/markdown.js
 
 generate-features:
 	@echo "... Build the tests from test/features/*.feature ...\n"
@@ -42,7 +42,7 @@ readme:
 
 doc:
 	@echo "... Generating the readme ...\n"
-	@node node_modules/.bin/marked docs/readme.md > docs/readme.html
+	@node node_modules/.bin/marked --gfm docs/readme.md > docs/readme.html
 	@make test REPORTER=doc >> docs/readme.html
 
 
