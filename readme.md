@@ -16,7 +16,7 @@ destination.
 ```js
 var Parser = require('mocha-gherkin');
 fs.createReadStream('local.feature').pipe(new Parser).pipe(process.stdout);
-r``
+```
 
 ## Api
 
