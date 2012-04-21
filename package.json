@@ -14,10 +14,14 @@
   "devDependencies": {
     "hogan": "~1.0.5-dev",
     "mocha": "~1.0.1",
-    "request": "~2.9.202"
+    "request": "~2.9.202",
+    "expect.js": "~0.1.2"
   },
   "scripts": {
     "test": "make"
   },
-  "main": "./parser"
+  "main": "./parser",
+  "assetsDependencies": {
+    "minimal": "orderedlist/minimal (docs/theme)"
+  }
 }

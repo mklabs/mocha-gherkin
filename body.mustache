@@ -3,6 +3,12 @@
 // Mocha generated tests
 //
 
+// todo: a way to configure module to load
+var fs = require('fs'),
+  path = require('path'),
+  Parser = require('../'),
+  assert = require('assert');
+
 describe("{{ feature.name }}", function() {
 
   describe("{{{ feature.desc }}}", function() {
@@ -11,8 +17,8 @@ describe("{{ feature.name }}", function() {
     describe("{{{ name }}}", function() {
       {{#steps}}
 
-      it("{{{ name }}}", function() {
-
+      it("{{{ name }}}", function({{args}}) {
+{{{ body }}}
       });
       {{/steps}}
 

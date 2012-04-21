@@ -2,9 +2,11 @@
 var fs = require('fs'),
   path = require('path'),
   util = require('util'),
+  vm = require('vm'),
   stream = require('stream'),
   Lexer = require('gherkin').Lexer('en'),
-  templates = require('./template');
+  templates = require('./template'),
+  sandbox = require('./sandbox');
 
 //
 // Basic gherkin feature -> mocha bdd test suite
@@ -20,14 +22,17 @@ var fs = require('fs'),
 
 module.exports = Parser;
 
-function Parser() {
+function Parser(opts) {
+  opts = opts || {};
   this.readable = this.writable = true;
-
-  this.indent = '';
 
   this.steps = [];
   this.features = [];
   this.scenarios = [];
+
+  this.stepsDefinition = opts.steps || '';
+  this.sandbox = opts.sandbox || sandbox;
+  this.sandbox.console = console;
 
   this.chunks = [];
 
@@ -35,9 +40,18 @@ function Parser() {
   this.template = templates.body;
 
   stream.Stream.call(this);
+
+  this.init();
 }
 
 util.inherits(Parser, stream.Stream);
+
+Parser.prototype.init = function(feature) {
+  var steps = this.stepsDefinition;
+  if(!steps) return;
+  vm.runInNewContext(steps, this.sandbox);
+};
+
 
 Parser.prototype.parse = function(feature) {
   this.lexer.scan(feature);
@@ -57,8 +71,11 @@ Parser.prototype.end = function() {
   var feature = this.chunks.join('');
   this.parse(feature);
   this.emit('data', this.mocha());
+  if(this.verbose) console.log('close?');
   this.emit('close');
 };
+
+Parser.prototype.destroy = function() {};
 
 //
 // Mocha output
@@ -75,7 +92,7 @@ Parser.prototype.mocha = function() {
   data.feature.desc = data.feature.desc.replace(/\n/g, ' ');
   data.scenarios = this.scenarios.map(function(scenario, i, arr) {
     var ln = scenario.line,
-      last = i === arr.length - 1;
+      last = i === arr.length - 1,
       next = arr[i + 1] ? arr[i + 1].line : 0;
 
     scenario.steps = steps.filter(function(step) {
@@ -131,8 +148,29 @@ Parser.prototype.step = function(keyword, name, line) {
   this.emit('step', keyword, name, line);
   this.emit(keyword, name, line);
 
-  name = name.replace(/"/g, "'");
-  this.steps.push({ step: keyword, name: keyword + name, line: line });
+  var data = { step: keyword, name: keyword + name, line: line, args: '' };
+
+  var match = this.sandbox.match(name);
+
+  data.name = data.name.replace(/"/g, "'");
+  if(!match) return this.steps.push(data);
+
+  var src = match.fn + '',
+    args = name.match(match.reg).slice(1);
+
+  // remove first / last line of our toString'd fn
+  src = src.split(/\r\n|\n/g);
+  src = src.slice(1, src.length - 1).map(function(l) {
+    return l ? '      ' + l : l;
+  }).join('\n');
+
+  data.body = src.replace(/\$([\d]+)/g, function(m, index) {
+    return args[parseInt(index, 10) - 1];
+  });
+
+  data.args = 'done';
+
+  this.steps.push(data);
 };
 
 Parser.prototype.tag = function(tag, line) {
