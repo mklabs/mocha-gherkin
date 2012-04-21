@@ -1,0 +1,48 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gherkin syntax &rarr; Mocha BDD specs</title>
+    
+    <link rel="stylesheet" href="css/styles.css">
+    <link rel="stylesheet" href="css/pygment_trac.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Gherkin syntax &rarr; Mocha BDD specs</h1>
+        <p>Pipe a feature, get a mocha...</p>
+        <p class="view"><a href="http://github.com/mklabs/mocha-gherkin">View the Project on GitHub <small>mklabs/mocha-gherkin</small></a></p>
+        <ul>
+          <li><a href="https://github.com/mklabs/mocha-gherkin/zipballmus/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/mklabs/mocha-gherkin/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="http://github.com/mklabs/mocha-gherkin">Fork On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h1>mocha-gherkin</h1>
+        <p><strong>Pipe a feature... Get a mocha</strong>
+
+        </p>
+        <hr>
+        <p><em>Gherkin syntax &rarr; Mocha BDD specs</em>
+
+        </p>
+        <h2>Streaming</h2>
+        <p>The parser is a readable / writable stream, so you can any stream
+        connected to a valid feature to a <code>new Parser</code>, and pipe it to a given
+        destination.
+
+        </p>
+        <p><code>js
+        var Parser = require(&#39;mocha-gherkin&#39;);
+        fs.createReadStream(&#39;local.feature&#39;).pipe(new Parser).pipe(process.stdout);
+        </code>
+
+        </p>
+      </section>

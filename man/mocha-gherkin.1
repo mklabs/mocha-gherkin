@@ -1,0 +1,96 @@
+.\" Generated with Ronnjs 0.3.8
+.\" http://github.com/kapouer/ronnjs/
+.
+.TH "MOCHA\-GHERKIN" "1" "April 2012" "" ""
+.
+.SH "NAME"
+\fBmocha-gherkin\fR \-\- foo
+.
+.SH "Mocha Gherkin"
+\fBPipe a feature\.\.\. Get a mocha\fR
+.
+.HR
+.
+.P
+\fIGherkin syntax \-> Mocha BDD specs\fR
+.
+.SH "Streaming"
+The parser is a readable / writable stream, so you can any stream
+connected to a valid feature to a \fBnew Parser\fR, and pipe it to a given
+destination\.
+.
+.P
+\fBjs
+var Parser = require(\'mocha\-gherkin\');
+fs\.createReadStream(\'local\.feature\')\.pipe(new Parser)\.pipe(process\.stdout);\fR
+.
+.SH "Api"
+.
+.IP "\(bu" 4
+\fIAPI\fR
+.
+.IP "\(bu" 4
+\fIAs a user of mocha\-gherkin I want to be able to use a streaming api So that I can pipe anything to it and pipe the result to any destination\fR
+.
+.IP "\(bu" 4
+\fIReading a file\fR
+<a name="" />
+.
+.IP "" 0
+
+.
+.IP "" 0
+
+.
+.IP "" 0
+.
+.P
+<a name="api" />
+# API
+<a name="api\-as\-a\-user\-of\-mocha\-gherkin\-i\-want\-to\-be\-able\-to\-use\-a\-streaming\-api\-so\-that\-i\-can\-pipe\-anything\-to\-it\-and\-pipe\-the\-result\-to\-any\-destination" />
+## As a user of mocha\-gherkin I want to be able to use a streaming api So that I can pipe anything to it and pipe the result to any destination
+<a name="api\-as\-a\-user\-of\-mocha\-gherkin\-i\-want\-to\-be\-able\-to\-use\-a\-streaming\-api\-so\-that\-i\-can\-pipe\-anything\-to\-it\-and\-pipe\-the\-result\-to\-any\-destination\-reading\-a\-file" />
+### Reading a file
+Given I am in the \'examples\' directory\.
+.
+.P
+\fBjs
+this\.base = process\.cwd();
+process\.chdir(path\.resolve(\'examples\'));
+done();\fR
+.
+.P
+When I read the \'basics\.feature\' file\.
+.
+.P
+\fBjs
+this\.file = fs\.createReadStream(\'basics\.feature\');
+this\.file\.pause();
+done();\fR
+.
+.P
+And I pipe it through a \'new Parser\'\.
+.
+.P
+\fB\fR`js
+var self = this;
+this\.output = \'\';
+this\.parser = this\.file\.pipe(new Parser)
+  \.on(\'data\', function(c) { self\.output += c })
+  \.on(\'close\', done);
+.
+.P
+this\.file\.resume(); \fB\fR`
+.
+.P
+Then I should see the content of \'test/fixtures/basics\.js\'\.
+.
+.P
+\fBjs
+process\.chdir(this\.base);
+var output = this\.output;
+fs\.readFile(\'test/fixtures/basics\.js\', \'utf8\', function(err, body) {
+  if(err) return done(err);
+  assert\.equal(body\.trim(), output\.trim());
+  done();
+});\fR
