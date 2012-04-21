@@ -42,7 +42,10 @@ readme:
 
 doc:
 	@echo "... Generating the readme ...\n"
-	@node node_modules/.bin/marked --gfm docs/readme.md > docs/readme.html
+	@node node_modules/.bin/marked --gfm docs/readme.md \
+		| sed 's/#\s(.*)//'	\
+		> docs/readme.html
+
 	@make test REPORTER=doc >> docs/readme.html
 
 

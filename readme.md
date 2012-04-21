@@ -18,15 +18,12 @@ destination.
 
 ## Api
 
-# TOC
-   - [API](#api)
-     - [As a user of mocha-gherkin I want to be able to use a streaming api So that I can pipe anything to it and pipe the result to any destination](#api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination)
-       - [Reading a file](#api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination-reading-a-file)
-       - [Requesting a file](#api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination-requesting-a-file)
+- [As a user of mocha-gherkin I want to be able to use a streaming api So that I can pipe anything to it and pipe the result to any destination](#api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination)
+ - [Reading a file](#api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination-reading-a-file)
+ - [Requesting a file](#api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination-requesting-a-file)
+
 <a name="" />
  
-<a name="api" />
-# API
 <a name="api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination" />
 ## As a user of mocha-gherkin I want to be able to use a streaming api So that I can pipe anything to it and pipe the result to any destination
 <a name="api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination-reading-a-file" />
