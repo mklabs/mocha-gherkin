@@ -16,7 +16,8 @@
     "mocha": "~1.0.1",
     "request": "~2.9.202",
     "expect.js": "~0.1.2",
-    "ronn": "~0.3.8"
+    "ronn": "~0.3.8",
+    "marked": "~0.2.4"
   },
   "scripts": {
     "test": "make"

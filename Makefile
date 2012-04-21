@@ -3,7 +3,7 @@ URL = https://raw.github.com/mojombo/jekyll/master/features
 REPORTER = spec
 TESTS = test/api.js
 
-all: template generate-features test
+all: template generate-features test docs readme
 
 template:
 	@echo "... Build the template ...\n"
@@ -35,7 +35,7 @@ test:
 		$(TESTS)
 
 docs-head:
-	cat docs/theme/index.html | head -26 \
+	@cat docs/theme/index.html | head -26 \
 		| sed 's/orderedlist\/minimal/mklabs\/mocha-gherkin/g' \
 		| perl -pe 's/<title>(.+)<\/title>/<title>Gherkin syntax &rarr; Mocha BDD specs<\/title>/g' \
 		| perl -pe 's/<h1>(.+)<\/h1>/<h1>Gherkin syntax &rarr; Mocha BDD specs<\/h1>/g' \
@@ -43,24 +43,29 @@ docs-head:
 		> docs/head.html
 
 docs-tail:
-	cat docs/theme/index.html | tail -8 \
+	@cat docs/theme/index.html | tail -8 \
 		| sed '2s/orderedlist/mklabs/' \
 		| sed 's/Steve Smith/mklabs/' \
 		> docs/tail.html
 
-docs: docs-head docs-tail
-	make test REPORTER=doc \
+docs:
+	@echo "... Generating the docs ...\n"
+	@make test REPORTER=doc \
 		| cat docs/head.html - docs/tail.html \
 		| sed 's/stylesheets/theme\/stylesheets/' \
 		> docs/index.html
 
 readme:
-	make test REPORTER=markdown \
+	@echo "... Generating the readme ...\n"
+	@make test REPORTER=markdown \
 		| cat docs/readme.md - \
 		> readme.md
 
 man: readme
-	cat readme.md | node node_modules/.bin/ronn > man/mocha-gherkin.1
+	@echo "... Generating manpage, from readme ...\n"
+	@cat readme.md | sed 's/&rarr;/->/' | cat man/head.md - \
+		| node node_modules/.bin/ronn \
+		> man/mocha-gherkin.1
 
-.PHONY: template test generate
+.PHONY: template test generate docs
 
