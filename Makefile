@@ -34,32 +34,23 @@ test:
 		--ignore-leaks \
 		$(TESTS)
 
-docs-head:
-	@cat docs/theme/index.html | head -26 \
-		| sed 's/orderedlist\/minimal/mklabs\/mocha-gherkin/g' \
-		| perl -pe 's/<title>(.+)<\/title>/<title>Gherkin syntax &rarr; Mocha BDD specs<\/title>/g' \
-		| perl -pe 's/<h1>(.+)<\/h1>/<h1>Gherkin syntax &rarr; Mocha BDD specs<\/h1>/g' \
-		| perl -pe 's/<p>(.+)<\/p>/<p>Pipe a feature, get a mocha...<\/p>/' \
-		> docs/head.html
-
-docs-tail:
-	@cat docs/theme/index.html | tail -8 \
-		| sed '2s/orderedlist/mklabs/' \
-		| sed 's/Steve Smith/mklabs/' \
-		> docs/tail.html
-
-docs:
-	@echo "... Generating the docs ...\n"
-	@make test REPORTER=doc \
-		| cat docs/head.html - docs/tail.html \
-		| sed 's/stylesheets/theme\/stylesheets/' \
-		> docs/index.html
-
 readme:
 	@echo "... Generating the readme ...\n"
 	@make test REPORTER=markdown \
 		| cat docs/readme.md - \
 		> readme.md
+
+doc:
+	@echo "... Generating the readme ...\n"
+	@node node_modules/.bin/marked docs/readme.md > docs/readme.html
+	@make test REPORTER=doc >> docs/readme.html
+
+
+docs: doc
+	@echo "... Generating the docs, from readme ...\n"
+	cat docs/readme.html \
+		| cat docs/head.html - docs/tail.html \
+		> docs/index.html
 
 man: readme
 	@echo "... Generating manpage, from readme ...\n"
@@ -67,5 +58,5 @@ man: readme
 		| node node_modules/.bin/ronn \
 		> man/mocha-gherkin.1
 
-.PHONY: template test generate docs
+.PHONY: template test generate docs readme
 
