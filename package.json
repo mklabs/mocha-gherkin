@@ -15,7 +15,8 @@
     "hogan": "~1.0.5-dev",
     "mocha": "~1.0.1",
     "request": "~2.9.202",
-    "expect.js": "~0.1.2"
+    "expect.js": "~0.1.2",
+    "ronn": "~0.3.8"
   },
   "scripts": {
     "test": "make"

@@ -59,5 +59,8 @@ readme:
 		| cat docs/readme.md - \
 		> readme.md
 
+man: readme
+	cat readme.md | node node_modules/.bin/ronn > man/mocha-gherkin.1
+
 .PHONY: template test generate
 
