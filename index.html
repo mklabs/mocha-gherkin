@@ -1,0 +1,173 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Gherkin syntax &rarr; Mocha BDD specs</title>
+
+    <link rel="stylesheet" href="style.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <section id="content">
+<h1>mocha-gherkin</h1>
+<p><strong>Pipe a feature... Get a mocha</strong>
+
+</p>
+<hr>
+<p><em><a href="https://github.com/cucumber/cucumber/wiki/Gherkin">Gherkin syntax</a> &rarr; <a href="https://github.com/visionmedia/mocha">Mocha</a> BDD specs</em>
+
+</p>
+<h2>Streaming</h2>
+<p>The parser is a readable / writable stream, so you can pipe any stream
+connected to a valid feature like:
+
+</p>
+<pre><code class="lang-feature">Feature: Example feature
+  As a user of cucumber.js
+  I want to have documentation on cucumber
+  So that I can concentrate on building awesome applications
+
+  Scenario: Reading the tests
+    Given I am in the test directory
+    When I read the index.js file
+    Then I should see &quot;new Parser&quot; somewhere</code></pre>
+<p>to a <code>new Parser</code>, and pipe it to a given destination.
+
+</p>
+<pre><code>var Parser = require(&#39;mocha-gherkin&#39;);
+fs.createReadStream(&#39;local.feature&#39;)
+  .pipe(new Parser)
+  .pipe(process.stdout);</code></pre>
+<p>You&#39;ll get matching Mocha BDD style specs:
+
+</p>
+<pre><code class="lang-js">describe(&quot;Example feature&quot;, function() {
+
+  describe(&quot;As a user of cucumber.js I want to have documentation on cucumber So that I can concentrate on building awesome applications&quot;, function() {
+
+    describe(&quot;Reading the tests&quot;, function() {
+
+      it(&quot;Given I am in the test directory&quot;, function() {
+
+      });
+
+      it(&quot;When I read the index.js file&quot;, function() {
+
+      });
+
+      it(&quot;Then I should see &#39;new Parser&#39; somewhere&quot;, function() {
+
+      });
+
+    });
+
+  });
+
+});</code></pre>
+<h2>Steps definition (kinda)</h2>
+<p>You can fill in the body of <code>it()</code> handlers with some kind of step
+definitions (definitely not valid cucumber step definitions.. but kind of)
+
+</p>
+<pre><code class="lang-js">var parser = new Parser({
+  steps: fs.readFileSync(&#39;./steps.js&#39;, &#39;utf8&#39;)
+});</code></pre>
+<p>The <code>step.js</code> file is a JavaScript file running in a new <a href="http://nodejs.org/api/vm.html#vm_vm_runinnewcontext_code_sandbox_filename">vm</a> context,
+with <code>Given</code>, <code>When</code>, <code>Then</code> and <code>And</code> function available. Each one
+takes two argument, a regexp to match and a callback to read and use as
+a body function for mocha <code>describe()</code> and <code>it()</code>.
+
+</p>
+<p>Captured parameters are available as <code>$1</code>, <code>$2</code> and so on, these
+placeholders get replaced by their relevant values from
+feature description.
+
+</p>
+<pre><code class="lang-js">Given(/I am in the &quot;(.*)&quot; directory/, function(done) {
+  this.base = process.cwd();
+  process.chdir(path.resolve(&#39;$1&#39;));
+  done();
+});
+
+When(/I read the &quot;(.*)&quot; file/, function(done) {
+  this.file = fs.createReadStream(&#39;$1&#39;);
+  this.file.pause();
+  done();
+});
+
+And(/I pipe it through a &quot;(.*)&quot;/, function(done) {
+  var self = this;
+  this.output = &#39;&#39;;
+  this.parser = this.file.pipe($1)
+    .on(&#39;data&#39;, function(c) { self.output += c })
+    .on(&#39;close&#39;, done);
+
+  this.file.resume();
+});
+
+Then(/I should see the content of &quot;(.*)&quot;/, function(done) {
+  process.chdir(this.base);
+  var output = this.output;
+  fs.readFile(&#39;$1&#39;, &#39;utf8&#39;, function(err, body) {
+    if(err) return done(err);
+    assert.equal(body.trim(), output.trim());
+    done();
+  });
+});</code></pre>
+
+    <section class="suite">
+      <h1>API</h1>
+      <dl>
+        <section class="suite">
+          <h1>As a user of mocha-gherkin I want to be able to use a streaming api So that I can pipe anything to it and pipe the result to any destination</h1>
+          <dl>
+            <section class="suite">
+              <h1>Reading a file</h1>
+              <dl>
+                <dt>Given I am in the 'examples' directory</dt>
+                <dd><pre><code>
+this.base = process.cwd();
+process.chdir(path.resolve('examples'));
+done();</code></pre></dd>
+                <dt>When I read the 'basics.feature' file</dt>
+                <dd><pre><code>
+this.file = fs.createReadStream('basics.feature');
+this.file.pause();
+done();</code></pre></dd>
+                <dt>And I pipe it through a 'new Parser'</dt>
+                <dd><pre><code>
+var self = this;
+this.output = '';
+this.parser = this.file.pipe(new Parser)
+  .on('data', function(c) { self.output += c })
+  .on('close', done);
+
+this.file.resume();</code></pre></dd>
+              </dl>
+            </section>
+          </dl>
+        </section>
+      </dl>
+    </section>
+    <section class="suite">
+      <h1>Requesting a file</h1>
+      <dl>
+        <dt>And I pipe it through a 'new Parser'</dt>
+        <dd><pre><code>
+request('https://raw.github.com/mojombo/jekyll/master/features/markdown.feature')
+  .pipe(new Parser)
+  .on('close', done)
+  .pipe(fs.createWriteStream('test/fixtures/remote-expected.js'));</code></pre></dd>
+      </dl>
+    </section>
+      </section>
+    <footer>
+      <span>This project is maintained by <a href="http://github.com/mklabs">mklabs</a></span>
+    </footer>
+    <script src="hijs.js"></script>
+  </body>
+</html>

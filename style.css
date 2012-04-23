@@ -1,0 +1,142 @@
+@import url(https://fonts.googleapis.com/css?family=Lato:300italic,700italic,300,700);
+
+body {
+  font: 14px/1.5 Lato, "Helvetica Neue", Helvetica, Arial, sans-serif;
+  font-weight: 300;
+  color: #777;
+  border-top: 2px solid #ddd;
+  margin: 0;
+}
+
+
+#content {
+  padding: 140px 110px 60px 110px;
+}
+
+
+h1, h2, h3, h4, h5, h6 {
+  color: #555;
+  margin: 0 0 20px;
+}
+
+p, ul, ol, table, pre, dl {
+  margin: 0 0 20px;
+}
+
+h1, h2, h3 {
+  line-height: 1.1;
+}
+
+h1 {
+  font-size: 28px;
+}
+
+h2 {
+  color: #393939;
+  margin-top: 80px;
+  font-weight: 100;
+  letter-spacing: 1px;
+  border-bottom: 1px solid #eee;
+}
+
+h3, h4, h5, h6 {
+  color: #494949;
+}
+
+a {
+  color: #39c;
+  font-weight: 400;
+  text-decoration: none;
+}
+
+a small {
+  font-size: 11px;
+  color: #777;
+  margin-top: -0.6em;
+  display: block;
+}
+
+strong {
+  color: #444;
+  font-weight: 700;
+}
+
+
+ul {
+  margin-top: 20px;
+  padding: 0 15px;
+  width: 100%;
+}
+
+ul li {
+  float: left;
+  width: 40%;
+  margin-top: 5px;
+  margin-right: 60px;
+  list-style: none;
+  border-bottom: 1px solid #eee;
+  padding: 5px 0;
+  font-size: 12px;
+}
+
+ul::after {
+  content: '.';
+  height: 0;
+  display: block;
+  visibility: hidden;
+  clear: both;
+}
+
+code {
+  font: 12px monaco, monospace;
+}
+
+pre {
+  margin: 30px;
+  padding: 30px 15px;
+  border: 1px solid #eee;
+  border-bottom-color: #ddd;
+  -webkit-border-radius: 2px;
+  -moz-border-radius: 2px;
+  -webkit-box-shadow: inset 0 0 10px #eee;
+  -moz-box-shadow: inset 0 0 10px #eee;
+  overflow-x: auto;
+}
+
+footer {
+  background: #eee;
+  width: 100%;
+  padding: 50px 0;
+  text-align: right;
+  border-top: 1px solid #ddd;
+}
+
+footer span {
+  display: block;
+  margin-right: 30px;
+  color: #888;
+  font-size: 12px;
+}
+
+/** mocha -R doc tweak **/
+.suite h1:first-child {
+  font-size: 1em;
+}
+
+@media all and (max-width: 850px) {
+  ul li {
+    width: 100%;
+  }
+
+  #content {
+    padding-left: 1em;
+    padding-right: 1em;
+  }
+}
+
+
+code .comment { color: #ddd }
+code .string, code .regexp { color: #5890AD }
+code .keyword { color: #8A6343 }
+code .number { color: #2F6FAD }
+code .class, code .special { color: #39c }
