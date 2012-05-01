@@ -7,10 +7,10 @@ all: template generate-features test docs readme
 
 template:
 	@echo "... Build the template ...\n"
-	@node node_modules/hogan/bin/hulk body.mustache \
+	@cd template && node ../node_modules/hogan/bin/hulk body.mustache \
 		| sed 's/{}/module.exports/' \
-		| cat template/head.js - template/tail.js \
-		> template/index.js
+		| cat head.js - tail.js \
+		> index.js
 
 generate:
 	@echo "... Build the test files, requesting some of jekyll features ...\n"

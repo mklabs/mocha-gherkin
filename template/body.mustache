@@ -3,12 +3,9 @@
 // Mocha generated tests
 //
 
-// todo: a way to configure module to load
-var fs = require('fs'),
-  path = require('path'),
-  Parser = require('../'),
-  assert = require('assert'),
-  request = require('request');
+{{#modules}}
+var {{ name }} = require('{{ name }}');
+{{/modules}}
 
 describe("{{ feature.name }}", function() {
 
