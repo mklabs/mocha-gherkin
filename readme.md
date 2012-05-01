@@ -16,6 +16,19 @@ destination.
     var Parser = require('mocha-gherkin');
     fs.createReadStream('local.feature').pipe(new Parser).pipe(process.stdout);
 
+
+## CLI Usage
+
+```sh
+$ cat file.feature | mocha-gherkin > test.js
+```
+
+with step some step (like):
+
+```sh
+$ cat file.feature | mocha-gherkin ./steps/step-definition.js > test.js
+```
+
 ## Api
 
 - [As a user of mocha-gherkin I want to be able to use a streaming api So that I can pipe anything to it and pipe the result to any destination](#api-as-a-user-of-mocha-gherkin-i-want-to-be-able-to-use-a-streaming-api-so-that-i-can-pipe-anything-to-it-and-pipe-the-result-to-any-destination)

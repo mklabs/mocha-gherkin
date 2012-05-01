@@ -22,8 +22,6 @@
   "scripts": {
     "test": "make"
   },
-  "main": "./parser",
-  "assetsDependencies": {
-    "minimal": "orderedlist/minimal (docs/theme)"
-  }
+  "main": "./lib/parser",
+  "bin": "./bin/mocha-gherkin"
 }
