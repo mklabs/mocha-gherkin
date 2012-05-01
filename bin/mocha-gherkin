@@ -8,7 +8,7 @@ var Parser = require('../');
 var step = process.argv.slice(2)[0];
 
 var parser = new Parser({
-  steps: step ? fs.readFileSync(path.resolve(), 'utf8') : null
+  steps: step ? fs.readFileSync(path.resolve(step), 'utf8') : null
 });
 
 process.openStdin()
