@@ -1,0 +1,11 @@
+
+Usage: cat some.feature | mocha-gherkin
+
+Options:
+
+    -v, --version     Output package version
+    -h, --help        Output this help text
+    -s, --step        Path to a step definition (kinda)
+    -m, --missing     Will output missing step definition
+                      instead of default generated test
+

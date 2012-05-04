@@ -1,16 +1,33 @@
 #!/usr/bin/env node
 
+// Module dependencies
+
 var fs = require('fs'),
-  path = require('path');
+  path = require('path'),
+  nopt = require('nopt');
 
-var Parser = require('../');
-
-var step = process.argv.slice(2)[0];
-
-var parser = new Parser({
-  steps: step ? fs.readFileSync(path.resolve(step), 'utf8') : null
+// cli options
+var opts = nopt({
+  help: Boolean, version: Boolean, step: path, missing: Boolean
 });
 
+// output help
+if(opts.help) {
+  return fs.createReadStream(path.join(__dirname, 'help.txt'))
+    .pipe(process.stdout);
+}
+
+// and version
+if(opts.version) return console.log(require('../package.json').version);
+
+// gherkin to mocha parser
+var Parser = require('../');
+
+// resolve spec if they're passed in (single file for now)
+if(opts.step) opts.step = fs.readFileSync(path.resolve(opts.step), 'utf8');
+
+// create the parser, give it stdin, output to stdout
+var parser = new Parser(opts);
 process.openStdin()
   .pipe(parser)
   .pipe(process.stdout);
