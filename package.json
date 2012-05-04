@@ -9,7 +9,8 @@
     "node": "~0.6.1"
   },
   "dependencies": {
-    "gherkin": "~2.9.3"
+    "gherkin": "~2.9.3",
+    "nopt": "~1.0.10"
   },
   "devDependencies": {
     "hogan": "~1.0.5-dev",
