@@ -7,16 +7,15 @@
 
 *[Gherkin syntax][] &rarr; [Mocha][] BDD specs*
 
-## Streaming
 
 The parser is a readable / writable stream, so you can pipe any stream
 connected to a valid feature like:
 
 ```feature
 Feature: Example feature
-  As a user of cucumber.js
-  I want to have documentation on cucumber
-  So that I can concentrate on building awesome applications
+  As a very lazy programmer
+  I want to write some feature file
+  So that I can quickly make my mocha
 
   Scenario: Reading the tests
     Given I am in the test directory
@@ -36,7 +35,7 @@ You'll get matching Mocha BDD style specs:
 ```js
 describe("Example feature", function() {
 
-  describe("As a user of cucumber.js I want to have documentation on cucumber So that I can concentrate on building awesome applications", function() {
+  describe("As a very lazy programmer I want to write some feature file So that I can quickly make my mocha", function() {
 
     describe("Reading the tests", function() {
 
@@ -66,7 +65,7 @@ definitions (definitely not valid cucumber step definitions.. but kind of)
 
 ```js
 var parser = new Parser({
-  steps: fs.readFileSync('./steps.js', 'utf8')
+  step: fs.readFileSync('./steps.js', 'utf8')
 });
 ```
 
@@ -114,6 +113,34 @@ Then(/I should see the content of "(.*)"/, function(done) {
 
 ```
 
+### Step snippets
+
+When `--missing` option is set, the output won't return the usual generated
+step but rather return you snippets for any step missing. It's handy to quicly
+generate the matching step file for a given feature file. Example:
+
+```sh
+$ cat example.feature | mocha-gherkin --missing
+```
+
+Should output:
+
+```js
+Given(/I am in the test directory/, function() {
+  // add code for your definition here, regexp captured paramaters can be used
+  // in the function body with simple placeholders like $1, $2, ...
+});
+
+When(/I read the index.js file/, function() {
+  // add code for your definition here, regexp captured paramaters can be used
+  // in the function body with simple placeholders like $1, $2, ...
+});
+
+Then(/I should see 'new Parser' somewhere/, function() {
+  // add code for your definition here, regexp captured paramaters can be used
+  // in the function body with simple placeholders like $1, $2, ...
+});
+```
 
 [Gherkin syntax]: https://github.com/cucumber/cucumber/wiki/Gherkin
 [Mocha]: https://github.com/visionmedia/mocha
