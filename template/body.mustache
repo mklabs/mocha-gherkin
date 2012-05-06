@@ -4,7 +4,7 @@
 //
 
 {{#modules}}
-var {{ name }} = require('{{ name }}');
+var {{ name }} = require('{{ path }}');
 {{/modules}}
 
 describe("{{ feature.name }}", function() {
