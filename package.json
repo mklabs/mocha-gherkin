@@ -10,10 +10,10 @@
   },
   "dependencies": {
     "gherkin": "~2.9.3",
-    "nopt": "~1.0.10"
+    "nopt": "~1.0.10",
+    "hogan": "~1.0.5-dev"
   },
   "devDependencies": {
-    "hogan": "~1.0.5-dev",
     "mocha": "~1.0.1",
     "request": "~2.9.202",
     "expect.js": "~0.1.2",
