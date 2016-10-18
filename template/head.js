@@ -1,5 +1,5 @@
 
-var Hogan = require('hogan');
+var Hogan = require('hogan.js');
 
 //
 // hogan templates
