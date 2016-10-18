@@ -3,6 +3,9 @@
 
 *A little tool to generate Mocha BDD specs from Gherkin features*
 
+## Installation
+
+    npm i mklabs/mocha-gherkin --save-dev
 
 ## Description
 
@@ -28,7 +31,7 @@ well.
 
 ## mocha-gherkin(1)
 
-    Usage: cat some.feature | mocha-gherkin
+    Usage: cat some.feature | ./node_modules/.bin/mocha-gherkin
 
     Options:
 
