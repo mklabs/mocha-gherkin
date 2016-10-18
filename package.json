@@ -11,7 +11,7 @@
   "dependencies": {
     "gherkin": "~2.9.3",
     "nopt": "~1.0.10",
-    "hogan": "~1.0.5-dev"
+    "hogan": "~1.0.2"
   },
   "devDependencies": {
     "mocha": "~1.0.1",
